@@ -1,0 +1,21 @@
+{
+  "version": "0.3.2",
+  "manual_mod_scan_toggle_and_ui_regression": "passed",
+  "source": "user-supplied Blockhaven.zip (src and resources); build workspace restored",
+  "target": "x86_64-pc-windows-gnu",
+  "rust": "1.99.0",
+  "exe_sha256": "14111597871054242b71cc2f2e30518ddd397bd9139430c7f3853068d8b5263f",
+  "embedded_icon_frames": 7,
+  "local_rust_tests": 30,
+  "windows_shell_folder_path_regression": "passed",
+  "default_discord_application_id": "1558468312172732539",
+  "default_id_and_legacy_config_regression": "passed",
+  "clippy_warnings_denied": "passed",
+  "windows_release_build": "passed",
+  "pe_icon_version_and_import_inspection": "passed",
+  "real_child_stop_crash_and_visibility_metadata": "passed on POSIX",
+  "offline_dispatch_folder_settings_start_stop_failed_launch": "passed with a Java stand-in",
+  "dom_ipc_and_window_event_test": "passed",
+  "discord_protocol_handshake_ping_activity_clear_and_limits": "passed with simulated local IPC",
+  "native_windows_gui_full_minecraft_and_live_discord": "not executed in this environment"
+}

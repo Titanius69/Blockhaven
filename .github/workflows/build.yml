@@ -1,0 +1,17 @@
+name: Build and test
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev
+      - run: cargo test --workspace --no-default-features --locked
+      - run: cargo build --release --locked
+      - if: runner.os == 'Linux'
+        run: cargo build --no-default-features --locked && python3 tests/scripts/desktop_flow.py
