@@ -1,7 +1,13 @@
 Blockhaven 0.3.2 — Windows x64
 
-Run Blockhaven.exe. Keep WebView2Loader.dll beside it.
-Requires Microsoft WebView2 Runtime and suitable Java, installed separately.
+Run BlockhavenSetup.exe for installation and automatic update checks.
+Setup is native Rust/Win32 and requires no WebView runtime.
+Choose Desktop / Start menu shortcuts and optional WebView2 installation.
+It installs to %AppData%\Blockhaven\launcher, copies itself and launches Blockhaven.
+Both shortcuts target the installed updater.
+
+For direct launching, run Blockhaven.exe with WebView2Loader.dll beside it.
+The launcher requires Microsoft WebView2 Runtime and suitable Java.
 
 Minecraft launch hides the launcher window. Game exit restores it.
 Home and Instances offer instance/version folder shortcuts.

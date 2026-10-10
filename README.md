@@ -6,6 +6,7 @@ Separate Vanilla and Fabric instances, a compact English interface, manual mod c
 
 ## New behavior
 
+- **Native installer/updater:** `BlockhavenSetup.exe` works without WebView2. It installs to `%AppData%\Blockhaven\launcher`, compares the live GitHub manifest, updates the launcher, copies itself, creates optional Desktop/Start menu shortcuts targeting the updater, optionally installs a missing WebView2 Runtime, and launches Blockhaven. [Installer documentation](docs/INSTALLER.md).
 - **Manual mods:** Installed mods also lists regular `.jar` and `.jar.disabled` files copied into the selected instance’s `mods` directory. They are marked Manual, with enable/disable switches. The list refreshes on navigation, on Refresh, and every two seconds while open. File renaming preserves the contents; manual files are not added to the Modrinth database. Managed filenames are excluded to prevent duplicate rows. Changing mods is blocked while Minecraft runs.
 
 - **Hide while playing:** the native launcher window hides only after the Java game process starts. When that process exits, crashes or is stopped, the same window reappears, unminimizes and requests focus. Failed installation or Java startup keeps the launcher visible. Hidden-window monitoring uses the Rust/OS event loop, independent of browser timers.
@@ -16,7 +17,7 @@ The compact English interface, Modrinth project artwork/cache, offline accounts,
 
 ## Run on Windows
 
-Extract the ZIP and open **`bin/windows-x64/Blockhaven.exe`**. Keep `WebView2Loader.dll` next to it. Microsoft WebView2 Runtime and an appropriate Java runtime must be installed separately. Minecraft and mods are not bundled.
+Extract the ZIP and open **`bin/windows-x64/BlockhavenSetup.exe`** to install with update checks and optional WebView2 installation. You can also run **`bin/windows-x64/Blockhaven.exe`** directly; keep `WebView2Loader.dll` beside it and install WebView2 Runtime yourself. An appropriate Java runtime is required separately. Minecraft and mods are not bundled.
 
 1. Add an offline account in **Accounts**, or configure your own Microsoft OAuth client ID and sign in.
 2. Choose `java` / `java.exe` in **Settings** and check it. Each instance can override Java.
@@ -53,15 +54,15 @@ On Windows, folder shortcuts use the native Shell open operation with a normaliz
 Install stable Rust and your platform's native development tools. Run from the folder containing `Cargo.toml`:
 
 ```sh
-cargo run --locked
+cargo run -p blockhaven --locked
 cargo build --release --locked
 ```
 
-Windows: MSVC Build Tools, or Rust GNU with MinGW. The ICO and version information are embedded at build time. GNU builds need the x64 `WebView2Loader.dll` from `target/release/build/webview2-com-sys-*/out/x64` alongside the executable. The supplied build includes it.
+Windows: MSVC Build Tools, or Rust GNU with MinGW. The build produces both `target/release/blockhaven.exe` and `target/release/BlockhavenSetup.exe`. Both include ICO/version resources. Setup needs no WebView runtime; it embeds and installs the GNU launcher's loader DLL. Direct GNU launcher builds need the x64 `WebView2Loader.dll` from `target/release/build/webview2-com-sys-*/out/x64` alongside the executable. The supplied build includes it.
 
 Ubuntu/Debian: install `build-essential`, `pkg-config`, `libgtk-3-dev` and `libwebkit2gtk-4.1-dev`. macOS: install Xcode Command Line Tools. Linux/macOS sources are included; native behavior on those desktops needs local verification.
 
-No Node, bundler, WASM or local HTTP server is needed by the application. Java and the system WebView runtime remain platform dependencies. `cargo run --features dev` enables disk-backed CSS and WebView devtools; Rust changes require rebuilding.
+No Node, bundler, WASM or local HTTP server is needed by the application. Java and the system WebView runtime remain launcher dependencies. `cargo run -p blockhaven --features dev` enables disk-backed CSS and WebView devtools; Rust changes require rebuilding. The installer GUI targets Windows x64; its update engine has portable tests.
 
 ## Implementation and checks
 
@@ -78,7 +79,7 @@ python3 tests/scripts/desktop_flow.py
 node tests/scripts/bridge.cjs
 ```
 
-Validated for this package: 30 Rust tests; real child-process stop/crash visibility transitions; dispatcher tests for offline launch, folder creation, Discord settings, hide/restore and failed Java startup; generic DOM/IPC event checks; Clippy with warnings denied; Windows x64 release compilation and executable icon/version resources. Discord protocol tests use a local simulated Discord socket. A Windows graphical session, a complete Minecraft game and live desktop Discord could not be run in this environment and need a local end-to-end check.
+Validated for this package: 42 offline Rust tests plus two explicit installer download tests; real child-process stop/crash visibility transitions; dispatcher tests for offline launch, folder creation, Discord settings, hide/restore and failed Java startup; generic DOM/IPC event checks; Clippy with warnings denied; Windows x64 release compilation and executable icon/version resources. Discord protocol tests use a local simulated Discord socket. A Windows graphical session, actual Runtime installation/shortcut creation, a complete Minecraft game and live desktop Discord could not be run in this environment and need a local end-to-end check.
 
 Official metadata fixtures were restored from the Mojang/Fabric/Modrinth APIs. The fixture catalog can be refreshed in the launcher. Forge, NeoForge, Quilt, Bedrock and modpack import are outside the supplied implementation.
 

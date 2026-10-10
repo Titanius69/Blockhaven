@@ -1,5 +1,6 @@
 [workspace]
-members = ["crates/fastchapp-desktop"]
+members = ["crates/fastchapp-desktop", "crates/blockhaven-installer"]
+default-members = [".", "crates/blockhaven-installer"]
 resolver = "2"
 
 [package]

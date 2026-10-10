@@ -11,6 +11,7 @@ target/
 # Compiled binaries and distribution packages (publish these as Release assets).
 *.exe
 *.dll
+!crates/blockhaven-installer/runtime/windows-x64/WebView2Loader.dll
 *.pdb
 *.ilk
 *.exp
@@ -35,6 +36,7 @@ target/
 
 # Local launcher settings, downloaded games, mods and caches.
 /config.json
+/installer.json
 /accounts.json
 /tokens.json
 /games/

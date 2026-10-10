@@ -1,3 +1,12 @@
+# Installer 0.1.0 (launcher 0.3.2)
+
+- Add a Rust Win32 installer/updater without WebView GUI dependencies, with native controls, progress and the Blockhaven icon.
+- Fetch the supplied GitHub manifest; compare and repair/update `%AppData%\Blockhaven\launcher`, with staged executable validation and rollback.
+- Copy setup into the installation, save options and create optional Desktop/Start menu Shell shortcuts targeting the updater.
+- Optionally detect/install Microsoft's WebView2 Runtime through its official Evergreen bootstrapper before launching Blockhaven.
+- Add automatic checks for installed setup, an explicit offline launch fallback, cancellation and a per-installation single-window lock.
+- Build launcher and setup together by default; keep launcher configuration and games separate from updater files.
+
 # 0.3.2
 
 - Open Windows instance/version folders through the native Shell API with normalized absolute paths, Unicode support and reported errors.
